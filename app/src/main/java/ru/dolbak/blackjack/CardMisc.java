@@ -64,8 +64,6 @@ public class CardMisc {
                 return cardArray[11];
             case KING:
                 return cardArray[12];
-            case COVER:
-                return R.drawable.cover;
             default:
                 return 0;
         }

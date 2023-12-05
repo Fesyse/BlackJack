@@ -1,12 +1,34 @@
 package ru.dolbak.blackjack;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Scanner;
 
 class Deck{
-    int pointer = 0;
-    Card[] cards = new Card[52];
-    //TODO: конструктор, в котором перемешиваются карты
-    // создать карту - вызвать new Card(Rate, Suit)
-
-    //TODO:" функция take() - взять карту из колоды
+    static int pointer = 0;
+    static Card[] cards = new Card[52];
+    Rate[] rates = {Rate.TWO, Rate.THREE, Rate.FOUR, Rate.FIVE, Rate.SIX, Rate.SEVEN, Rate.EIGHT, Rate.NINE, Rate.TEN, Rate.JACK, Rate.QUEEN, Rate.KING, Rate.ACE};
+    Suit[] suits = {Suit.Diamonds, Suit.Hearts, Suit.Spades, Suit.Clubs};
+    static Card[] currentCards = new Card[52];
+    public Deck() {
+        for ( int i = 0; i < rates.length; i++){
+            for ( int j = 0; j < suits.length; j++){
+                cards[i * 4 + j] = new Card(rates[i], suits[j]);
+            }
+        }
+        for (int i = 0; i < cards.length; i++) {
+            Random rnd = new Random();
+            int randomIndex = Math.abs(rnd.nextInt()) % (cards.length - 1);
+            currentCards[i] = cards[randomIndex];
+            cards[randomIndex] = cards[cards.length - i - 1];
+        }
+    }
+    public static Card take(){
+        pointer++;
+        return currentCards[pointer - 1];
+    }
+    public static int randomNumber(int min, int max) {
+        return (int) Math.floor(Math.random() * (max - min + 1) + min);
+    }
 }
 
 enum Suit{
@@ -29,10 +51,9 @@ enum Rate{
     JACK(10),
     QUEEN(10),
     KING(10),
-    ACE(1),
-    COVER(0);
-    private int points;
-    Rate(int points){
+    ACE(1);
+    private final int points;
+    private Rate(int points){
         this.points = points;
     }
     public int getPoints(){
@@ -58,6 +79,5 @@ class Game{
     //метод для вывода очков игрока и крупье
     //метод для вывода карт игрока и крупье
     //определить, кто победил
-
 }
 
